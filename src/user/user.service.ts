@@ -13,6 +13,12 @@ export class UserService {
     ) { }
 
     async createUser(createUserDto: CreateUserDto): Promise<UserModel> {
+        const user = await this.userModel.findOne({ email: createUserDto.email, phoneNumber:createUserDto.phoneNumber })
+                
+        if (user) {
+            throw new HttpException('This email or phone number already exist!', HttpStatus.CONFLICT)
+        }
+
         const hashedPassword = await hashPassword(createUserDto.password);
         createUserDto.password = hashedPassword;
         const newUser = await new this.userModel(createUserDto).save();

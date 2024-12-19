@@ -15,7 +15,7 @@ export class CreateUserDto implements User {
     @IsNotEmpty()
     password: string;
 
-    @IsPhoneNumber()
+    @IsPhoneNumber('TR')
     @IsNotEmpty()
     phoneNumber: string;
 
