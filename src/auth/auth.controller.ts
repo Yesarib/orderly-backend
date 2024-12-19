@@ -4,13 +4,15 @@ import { LoginDto } from './dto/auth.dto';
 import { Response } from 'express';
 import { ApiResponseDto } from 'src/common/dto/response.dto';
 import { CreateUserDto } from 'src/user/dto/createUser.dto';
+import { Public } from 'src/common/decorators/public.decorator';
 
 @Controller('auth')
 export class AuthController {
     constructor(
         private readonly authService: AuthService
-    ) {}
-
+    ) { }
+    
+    @Public()
     @Post('login')
     async login(@Res({ passthrough: true }) res: Response, @Body() loginDto: LoginDto) {
         const tokens = await this.authService.login(loginDto);
@@ -29,8 +31,9 @@ export class AuthController {
         return new ApiResponseDto(true, tokens)
     }
 
+    @Public()
     @Post('register')
-    async register(@Res({ passthrough: true }) res: Response,@Body() createUserDto: CreateUserDto) {
+    async register(@Res({ passthrough: true }) res: Response, @Body() createUserDto: CreateUserDto) {
         const tokens = await this.authService.register(createUserDto);
         res.cookie('accessToken', tokens.access_token, {
             httpOnly: true,

@@ -3,6 +3,7 @@ import { UserService } from './user.service';
 import { CreateUserDto } from './dto/createUser.dto';
 import { ApiResponseDto } from 'src/common/dto/response.dto';
 import { UpdateUserDto } from './dto/updateUser.dto';
+import { Public } from 'src/common/decorators/public.decorator';
 
 @Controller('user')
 export class UserController {
@@ -24,7 +25,7 @@ export class UserController {
 
         return new ApiResponseDto(true, users)
     }
-
+    
     @Get(':userId')
     async getUserById(@Param('userId') userId: string) {
         const user = await this.userService.getUserById(userId)

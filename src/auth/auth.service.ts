@@ -25,10 +25,9 @@ export class AuthService {
         }
 
         const user = loginDto.email ? await this.userService.getUserByEmail(loginDto.email) : await this.userService.getUserByPhoneNumber(loginDto.phoneNumber);
-        console.log(user);
         
         if (!user) {
-            throw new HttpException('user not foun!', HttpStatus.NOT_FOUND)
+            throw new HttpException('user not found!', HttpStatus.NOT_FOUND)
         }
 
         const isMatch = await isValidPassword(loginDto.password, user.password);
