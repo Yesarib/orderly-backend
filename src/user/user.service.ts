@@ -13,7 +13,12 @@ export class UserService {
     ) { }
 
     async createUser(createUserDto: CreateUserDto): Promise<UserModel> {
-        const user = await this.userModel.findOne({ email: createUserDto.email, phoneNumber:createUserDto.phoneNumber })
+        const user = await this.userModel.findOne({
+            $or: [
+                { email: createUserDto.email },
+                { phoneNumber: createUserDto.phoneNumber }
+            ]
+        });
                 
         if (user) {
             throw new HttpException('This email or phone number already exist!', HttpStatus.CONFLICT)
@@ -41,13 +46,13 @@ export class UserService {
     }
 
     async getUserByEmail(email: string): Promise<UserModel> {
-        const user = await this.userModel.findOne({ email: email }).select('-password');
+        const user = await this.userModel.findOne({ email: email })
 
         return user;
     }
 
     async getUserByPhoneNumber(phoneNumber: string): Promise<UserModel> {
-        const user = await this.userModel.findOne({ phoneNumber: phoneNumber }).select('-password');
+        const user = await this.userModel.findOne({ phoneNumber: phoneNumber })
 
         if (!user) {
             throw new HttpException('user not found!', HttpStatus.NOT_FOUND)
