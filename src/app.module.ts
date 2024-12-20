@@ -8,6 +8,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { AuthModule } from './auth/auth.module';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './auth/jwt/jwt-auth.guard';
+import { CompanyModule } from './company/company.module';
 
 @Module({
   imports: [
@@ -18,7 +19,8 @@ import { JwtAuthGuard } from './auth/jwt/jwt-auth.guard';
       dbName:'orderly'
     }),
     UserModule,
-    AuthModule
+    AuthModule,
+    CompanyModule
   ],
   controllers: [AppController, UserController],
   providers: [AppService,
