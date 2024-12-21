@@ -33,8 +33,8 @@ export class TableService {
     }
 
     async updateTable(tableId: string, tableDto: TableDto): Promise<TableModel> {
-        const table = (await this.tableModel.findByIdAndUpdate(tableId, tableDto)).save();
-
+        const table = await this.tableModel.findByIdAndUpdate(tableId, tableDto, { new: true })
+        
         if (!table) {
             throw new HttpException('Table is not found!', HttpStatus.NOT_FOUND)
         }

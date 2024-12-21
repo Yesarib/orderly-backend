@@ -32,7 +32,7 @@ export class CompanyService {
     }
 
     async updateCompany(companyId: string, updateCompanyDto: UpdateCompanyDto): Promise<CompanyModel> {
-        const company = (await this.companyModel.findByIdAndUpdate(companyId, updateCompanyDto)).save();
+        const company = await this.companyModel.findByIdAndUpdate(companyId, updateCompanyDto, { new: true });
 
         if (!company) {
             throw new HttpException("Company Not Found", HttpStatus.NOT_FOUND)

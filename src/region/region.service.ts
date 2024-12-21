@@ -34,7 +34,7 @@ export class RegionService {
     }
 
     async updateRegion(regionId: string, updateRegionDto: UpdateRegionDto): Promise<RegionModel> {
-        const region = (await this.regionModel.findByIdAndUpdate(regionId, updateRegionDto)).save();
+        const region = await this.regionModel.findByIdAndUpdate(regionId, updateRegionDto, { new: true });
 
         if (!region) {
             throw new HttpException("Company Not Found", HttpStatus.NOT_FOUND)
