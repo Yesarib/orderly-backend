@@ -18,10 +18,18 @@ export class AllExceptionsFilter implements ExceptionFilter {
         ? exception.getStatus()
         : HttpStatus.INTERNAL_SERVER_ERROR;
 
-    const errorResponseObj =
-      exception instanceof HttpException
-        ? exception.getResponse()
-        : { message: 'Internal server error' };
+    let errorResponseObj = exception instanceof HttpException
+      ? exception.getResponse()
+      : { message: 'Internal server error' };
+
+    if (exception instanceof Error && exception.name === 'ValidationError') {
+      errorResponseObj = {
+        message: 'Validation error',
+        details: exception.message, 
+      };
+    }
+
+    console.log(exception);
 
     const errorResponse = new ApiResponseDto(
       false,

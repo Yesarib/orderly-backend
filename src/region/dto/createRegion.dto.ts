@@ -8,5 +8,5 @@ export class CreateRegionDto {
 
     @IsNotEmpty()
     @IsString()
-    companyId: Types.ObjectId
+    company: Types.ObjectId
 }
