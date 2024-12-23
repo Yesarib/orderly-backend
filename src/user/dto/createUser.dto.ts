@@ -1,5 +1,5 @@
 import { IsDate, IsEmail, IsEnum, IsNotEmpty, IsOptional, IsPhoneNumber, IsString } from "class-validator";
-import { Roles, User } from "../interface/user.interface";
+import { User } from "../interface/user.interface";
 import { Types } from "mongoose";
 
 export class CreateUserDto implements User {
@@ -20,8 +20,8 @@ export class CreateUserDto implements User {
     phoneNumber: string;
 
     @IsNotEmpty()
-    @IsEnum(Roles)
-    role: Roles;
+    @IsString()
+    role: Types.ObjectId;
 
     @IsDate()
     @IsOptional()

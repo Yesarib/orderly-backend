@@ -5,6 +5,7 @@ import { UserService } from 'src/user/user.service';
 import { LoginDto } from './dto/auth.dto';
 import { isValidPassword } from 'src/utils/jwt.util';
 import { CreateUserDto } from 'src/user/dto/createUser.dto';
+import { RoleService } from 'src/role/role.service';
 
 export interface AuthResponse {
     access_token: string
@@ -15,6 +16,7 @@ export interface AuthResponse {
 export class AuthService {
     constructor(
         private readonly userService: UserService,
+        private readonly roleService: RoleService,
         private readonly jwtService: JwtService,
         private config: ConfigService
     ) { }
@@ -25,7 +27,7 @@ export class AuthService {
         }
 
         const user = loginDto.email ? await this.userService.getUserByEmail(loginDto.email) : await this.userService.getUserByPhoneNumber(loginDto.phoneNumber);
-        
+
         if (!user) {
             throw new HttpException('user not found!', HttpStatus.NOT_FOUND)
         }
@@ -35,17 +37,21 @@ export class AuthService {
             throw new HttpException('Username or password does not match', HttpStatus.UNAUTHORIZED);
         }
 
+        const role = await this.roleService.getRoleById(String(user.role));
+
         user.lastEntry = new Date();
         await user.save();
 
-        const token = await this.getTokens(String(user._id), user.role)
+        const token = await this.getTokens(String(user._id), role.name)
         return token;
     }
 
     async register(registerDto: CreateUserDto): Promise<AuthResponse> {
         const user = await this.userService.createUser(registerDto);
 
-        const tokens = await this.getTokens(String(user._id), user.role);
+        const role = await this.roleService.getRoleById(String(user.role));
+
+        const tokens = await this.getTokens(String(user._id), role.name);
 
         return tokens;
     }

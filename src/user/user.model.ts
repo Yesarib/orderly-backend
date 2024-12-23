@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { Document, Types } from 'mongoose'
-import { Roles, User } from "./interface/user.interface";
+import { User } from "./interface/user.interface";
 
 export type UserDocument = User & Document
 
@@ -27,10 +27,11 @@ export class UserModel extends Document implements User {
     phoneNumber: string;
 
     @Prop({
-        required: true,
-        default: Roles.WAITER
+        type: Types.ObjectId, 
+        ref: "RoleModel", 
+        required: true
     })
-    role: Roles;
+    role: Types.ObjectId;
 
     @Prop()
     lastEntry?: Date;
