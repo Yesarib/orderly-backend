@@ -13,6 +13,7 @@ import { RegionModule } from './region/region.module';
 import { TableModule } from './table/table.module';
 import { CategoryModule } from './category/category.module';
 import { RoleModule } from './role/role.module';
+import { AuthorizationModule } from './authorization/authorization.module';
 
 @Module({
   imports: [
@@ -28,7 +29,8 @@ import { RoleModule } from './role/role.module';
     RegionModule,
     TableModule,
     CategoryModule,
-    RoleModule
+    RoleModule,
+    AuthorizationModule
   ],
   controllers: [AppController, UserController],
   providers: [AppService,
