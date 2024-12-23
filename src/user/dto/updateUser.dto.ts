@@ -1,5 +1,4 @@
 import { IsDate, IsEmail, IsNotEmpty, IsOptional, IsPhoneNumber, IsString } from "class-validator";
-import { Roles, User } from "../interface/user.interface";
 import { Types } from "mongoose";
 
 export class UpdateUserDto  {
@@ -17,7 +16,7 @@ export class UpdateUserDto  {
 
     @IsNotEmpty()
     @IsString()
-    role: Roles;
+    role: Types.ObjectId;
 
     @IsDate()
     @IsOptional()

@@ -12,6 +12,7 @@ import { CompanyModule } from './company/company.module';
 import { RegionModule } from './region/region.module';
 import { TableModule } from './table/table.module';
 import { CategoryModule } from './category/category.module';
+import { RoleModule } from './role/role.module';
 
 @Module({
   imports: [
@@ -26,7 +27,8 @@ import { CategoryModule } from './category/category.module';
     CompanyModule,
     RegionModule,
     TableModule,
-    CategoryModule
+    CategoryModule,
+    RoleModule
   ],
   controllers: [AppController, UserController],
   providers: [AppService,
