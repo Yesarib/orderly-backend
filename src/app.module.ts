@@ -14,6 +14,7 @@ import { TableModule } from './table/table.module';
 import { CategoryModule } from './category/category.module';
 import { RoleModule } from './role/role.module';
 import { AuthorizationModule } from './authorization/authorization.module';
+import { ProductModule } from './product/product.module';
 
 @Module({
   imports: [
@@ -30,7 +31,8 @@ import { AuthorizationModule } from './authorization/authorization.module';
     TableModule,
     CategoryModule,
     RoleModule,
-    AuthorizationModule
+    AuthorizationModule,
+    ProductModule
   ],
   controllers: [AppController, UserController],
   providers: [AppService,
