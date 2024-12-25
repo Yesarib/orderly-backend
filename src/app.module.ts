@@ -15,6 +15,7 @@ import { CategoryModule } from './category/category.module';
 import { RoleModule } from './role/role.module';
 import { AuthorizationModule } from './authorization/authorization.module';
 import { ProductModule } from './product/product.module';
+import { OrderModule } from './order/order.module';
 
 @Module({
   imports: [
@@ -32,7 +33,8 @@ import { ProductModule } from './product/product.module';
     CategoryModule,
     RoleModule,
     AuthorizationModule,
-    ProductModule
+    ProductModule,
+    OrderModule
   ],
   controllers: [AppController, UserController],
   providers: [AppService,
