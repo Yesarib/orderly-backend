@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsObject, IsString } from "class-validator";
+import { IsArray, IsNotEmpty, IsObject, IsString } from "class-validator";
 import { Types } from "mongoose";
 
 export class CreateOrderDto {
@@ -10,7 +10,7 @@ export class CreateOrderDto {
     @IsNotEmpty()
     tableId: Types.ObjectId
 
-    @IsObject()
+    @IsArray()
     @IsNotEmpty()
     items: {
         productId: Types.ObjectId,

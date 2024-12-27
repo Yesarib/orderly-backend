@@ -49,8 +49,8 @@ export class OrderController {
     }
 
     @Put(':orderId')
-    async updateOrder(@Param('orderId') orderId: string, items:Items[]) {
-        const updatedOrder = await this.orderService.updateOrder(orderId,items)
+    async updateOrder(@Param('orderId') orderId: string, @Body() items: Items[]) {
+        const updatedOrder = await this.orderService.updateOrder(orderId, items)
 
         return new ApiResponseDto(true, updatedOrder)
     }
