@@ -46,31 +46,38 @@ export class OrderService {
 
         return orders;
     }
-    
+
     async updateOrder(orderId: string, items: ItemDto[]): Promise<OrderModel> {
+        const order = await this.orderModel.findById(orderId).exec();
+
+        if (!order) {
+            throw new HttpException('Order not found!', HttpStatus.NOT_FOUND);
+        }
+
+        order.items = items.filter(item => item.quantity > 0);
+
+        await order.save();
+        return order;
+    }
+
+    async deleteOrderItem(orderId: string, productId: string): Promise<OrderModel> {
         const order = await this.orderModel.findById(orderId).exec()
 
         if (!order) {
             throw new HttpException('Order not found!', HttpStatus.NOT_FOUND)
         }
 
-        items.forEach((item) => {
-            const productIndex = order.items.findIndex((product) =>
-                product.productId.toString() === item.productId.toString()
-            );
+        const initialLength = order.items.length;
 
-            if (productIndex !== -1) {
-                order.items[productIndex].quantity += item.quantity;
-                if (order.items[productIndex].quantity <= 0) {
-                    order.items.splice(productIndex, 1);
-                }
-            } else if (item.quantity > 0) {
-                order.items.push(item);
-            }
-        });
+        order.items = order.items.filter(
+            (item) => item.productId.toString() !== productId.toString()
+        );
+
+        if (order.items.length === initialLength) {
+            throw new HttpException('Product not found in order!', HttpStatus.NOT_FOUND);
+        }
 
         await order.save();
-
         return order;
     }
 

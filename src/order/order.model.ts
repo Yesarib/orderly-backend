@@ -4,7 +4,16 @@ import { Order, PaymentType } from "./interface/order.interface";
 
 export type OrderDocument = Order & Document;
 
-@Schema({ timestamps: true })
+@Schema({ timestamps: true, _id: false })
+class Items {
+    @Prop({ required: true, type: Types.ObjectId, ref: 'ProductModel' })
+    productId: Types.ObjectId;
+
+    @Prop({ required: true })
+    quantity: number;
+}
+
+@Schema({ timestamps: true})
 export class OrderModel extends Document implements Order {
 
     @Prop({ required: true, type: Types.ObjectId, ref: 'RegionModel' })
@@ -13,11 +22,8 @@ export class OrderModel extends Document implements Order {
     @Prop({ required: true, type: Types.ObjectId, ref: 'TableModel' })
     tableId: Types.ObjectId;
 
-    @Prop({ required: true, type: [{ productId: { type: Types.ObjectId, ref: 'ProductModel' }, quantity: Number }] })
-    items: {
-        productId: Types.ObjectId,
-        quantity: number
-    }[];
+    @Prop({ required: true, type: [Items] })
+    items: Items[];
 
     @Prop({ required: true, default: 'pending' })
     status: string;
