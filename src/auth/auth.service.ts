@@ -22,11 +22,8 @@ export class AuthService {
     ) { }
 
     async login(loginDto: LoginDto): Promise<AuthResponse> {
-        if (!loginDto.email && !loginDto.phoneNumber) {
-            throw new HttpException('email or phone number is not specified!', HttpStatus.BAD_REQUEST)
-        }
 
-        const user = loginDto.email ? await this.userService.getUserByEmail(loginDto.email) : await this.userService.getUserByPhoneNumber(loginDto.phoneNumber);
+        const user = await this.userService.getUserByEmail(loginDto.emailOrPhoneNumber) || await this.userService.getUserByPhoneNumber(loginDto.emailOrPhoneNumber);
 
         if (!user) {
             throw new HttpException('user not found!', HttpStatus.NOT_FOUND)
